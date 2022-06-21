@@ -1,0 +1,38 @@
+plugins {
+    id 'java'
+    id "com.github.johnrengelman.shadow" version "7.1.2"
+    id 'org.jetbrains.kotlin.jvm' version '1.7.0'
+}
+group 'com.mohistmc'
+version '1.16.5-0.1-SNAPSHOT'
+
+java.toolchain.languageVersion = JavaLanguageVersion.of(11)
+
+repositories {
+    mavenCentral()
+    maven { url 'https://maven.aliyun.com/repository/public/' }
+    maven { url "https://s01.oss.sonatype.org/content/repositories/releases/" }
+    maven { url "https://maven.mohistmc.com/" }
+    maven { url "'https://repo.maven.apache.org/maven2" }
+}
+dependencies {
+    implementation 'com.mohistmc:mohistdev:1.16.5-0.1'
+    implementation fileTree(dir: 'lib', include: ['*.jar'])
+
+    implementation('net.mamoe:mirai-core-jvm:2.11.1') {
+        exclude group: 'net.mamoe', module: 'mirai-core-api'
+        exclude group: 'net.mamoe', module: 'mirai-core-utils'
+    }
+    implementation('net.mamoe:mirai-core-api-jvm:2.11.1') {
+        exclude group: 'net.mamoe', module: 'mirai-core-utils'
+    }
+    implementation("net.mamoe:mirai-core-utils-jvm:2.11.1")
+    implementation("net.mamoe:mirai-console-compiler-annotations:2.11.1")
+}
+
+shadowJar {
+
+    dependencies {
+        exclude(dependency('com.mohistmc:mohistdev:1.16.5-0.1'))
+    }
+}
